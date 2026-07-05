@@ -1,21 +1,29 @@
-version: '3.8'
-
 services:
   api:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     environment:
       - ENVIRONMENT=development
       - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
     volumes:
       - ./app:/app/app
+      - ./tests:/app/tests
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     
   test:
-    build: .
-    command: pytest tests/
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    command: pytest tests/ -v
     environment:
       - ENVIRONMENT=test
+      - PYTHONPATH=/app
+    volumes:
+      - ./app:/app/app
+      - ./tests:/app/tests
     depends_on:
       - api

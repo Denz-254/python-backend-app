@@ -52,8 +52,8 @@ async def root():
 async def create_item(item: Item):
     """Create a new item"""
     item_id = len(items_db) + 1
-    items_db[item_id] = item.dict()
-    return {"id": item_id, **item.dict()}
+    items_db[item_id] = item.model_dump()  # Changed from .dict()
+    return {"id": item_id, **item.model_dump()}  # Changed from .dict()
 
 @app.get("/items/")
 async def get_items():
@@ -72,8 +72,8 @@ async def update_item(item_id: int, item: Item):
     """Update an item"""
     if item_id not in items_db:
         raise HTTPException(status_code=404, detail="Item not found")
-    items_db[item_id] = item.dict()
-    return {"id": item_id, **item.dict()}
+    items_db[item_id] = item.model_dump()  # Changed from .dict()
+    return {"id": item_id, **item.model_dump()}  # Changed from .dict()
 
 @app.delete("/items/{item_id}")
 async def delete_item(item_id: int):
