@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./app:/app/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    
+  test:
+    build: .
+    command: pytest tests/
+    environment:
+      - ENVIRONMENT=test
+    depends_on:
+      - api
