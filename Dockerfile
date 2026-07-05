@@ -1,6 +1,11 @@
 # Use official Python image
 FROM python:3.11-slim AS builder
 
+# Add labels for GHCR
+LABEL org.opencontainers.image.source=https://github.com/Denz-254/python-backend-app
+LABEL org.opencontainers.image.description="Python Backend API"
+LABEL org.opencontainers.image.licenses="MIT"
+
 # Set working directory
 WORKDIR /app
 
